@@ -1,0 +1,8 @@
+
+export default function Main() {
+    return (
+        <div className="h-full bg-red-500">
+            as
+        </div>
+    )
+}
