@@ -18,14 +18,13 @@ import {
 } from "@/components/ui/collapsible";
 
 const navigationItems = [
-    { label: 'Ugdymas', href: '/ugdymas' },
-    { label: 'Darželis', href: '/#darzelis' },
+    { label: 'Dokumentai', href: '/dokumentai' },
     { label: 'Kontaktai', href: '/kontaktai' },
 ];
 
 const TėveliamsDropdownItems = [
-    { label: 'Mokesčiai', href: '/mokesčiai' },
-    { label: 'Prašymai', href: '/prašymai' },
+    { label: 'Konsultacijos', href: '/konsultacijos' },
+    { label: 'Saulės elektrinės kibernetinio saugumo auditas', href: '/auditas' },
 ];
 
 export default function Header() {
@@ -50,21 +49,10 @@ export default function Header() {
 
                         {/* Desktop Navigation */}
                         <nav className="hidden items-center gap-0 lg:flex text-sm" aria-label="Main navigation">
-                            {navigationItems.slice(0, 2).map((item) => (
-                                <Button key={item.label} asChild variant="link" className='text-foreground'>
-                                    <Link
-                                        href={item.href}
-                                    >
-                                        {item.label}
-                                    </Link>
-                                </Button>
-                            ))}
-
-                            {/* Tėveliams Dropdown using Radix/shadcn */}
-                            <DropdownMenu>
+                        <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
                                     <Button variant="link" className='text-foreground group'>
-                                        Tėveliams
+                                        Paslaugos
                                         <ChevronDown
                                             className="w-4 h-4 transition-transform group-data-[state=open]:rotate-180"
                                             aria-hidden="true"
@@ -81,6 +69,19 @@ export default function Header() {
                                     ))}
                                 </DropdownMenuContent>
                             </DropdownMenu>
+
+                        
+                            {navigationItems.slice(0, 2).map((item) => (
+                                <Button key={item.label} asChild variant="link" className='text-foreground'>
+                                    <Link
+                                        href={item.href}
+                                    >
+                                        {item.label}
+                                    </Link>
+                                </Button>
+                            ))}
+
+                            
 
                             {navigationItems.slice(2).map((item) => (
                                 <Button  key={item.label} variant='link' asChild className='text-foreground'>
