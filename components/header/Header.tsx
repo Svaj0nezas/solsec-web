@@ -1,32 +1,17 @@
 'use client'
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import Link from "next/link";
-import { Button } from "../ui/button";
-import MenuButton from "./components/MenuButton";
-import { ChevronDown } from "lucide-react";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
-    Collapsible,
-    CollapsibleContent,
-    CollapsibleTrigger,
-} from "@/components/ui/collapsible";
+import Link from 'next/link';
+import MenuButton from './components/MenuButton';
+import { Button } from '../ui/button';
 
-const navigationItems = [
-    { label: 'Dokumentai', href: '/dokumentai' },
-    { label: 'Kontaktai', href: '/kontaktai' },
+const menuItems = [
+    { label: 'Paslaugos', href: '/services' },
+    { label: 'Studio', href: '/contacts' },
+    { label: 'The Map', href: '/' },
 ];
 
-const TėveliamsDropdownItems = [
-    { label: 'Konsultacijos', href: '/konsultacijos' },
-    { label: 'Saulės elektrinės kibernetinio saugumo auditas', href: '/auditas' },
-];
-
+// Main Header Component
 export default function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -35,75 +20,28 @@ export default function Header() {
     };
 
     return (
-        <>
-            <div className="sticky top-0 z-50">
-                <header className="mx-auto w-full  backdrop-blur-lg border-b ">
-                    <div className="mx-auto w-full max-w-screen-xl px-4 sm:px-6 lg:px-8 flex min-h-16 items-center justify-between ">
-                        <Link
-                            href="/"
-                            aria-label="Go to homepage"
-                            className="normal-text flex items-center font-semibold text-base text-text-primary duration-300 ease-in-out hover:opacity-80"
-                        >
-                            LogoTipas
-                        </Link>
-
-                        {/* Desktop Navigation */}
-                        <nav className="hidden items-center gap-0 lg:flex text-sm" aria-label="Main navigation">
-                        <DropdownMenu>
-                                <DropdownMenuTrigger asChild>
-                                    <Button variant="link" className='text-foreground group'>
-                                        Paslaugos
-                                        <ChevronDown
-                                            className="w-4 h-4 transition-transform group-data-[state=open]:rotate-180"
-                                            aria-hidden="true"
-                                        />
-                                    </Button>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent align="start" className="w-48  bg-card border-none">
-                                    {TėveliamsDropdownItems.map((item) => (
-                                        <DropdownMenuItem key={item.label} asChild>
-                                            <Link href={item.href} className="cursor-pointer">
-                                                {item.label}
-                                            </Link>
-                                        </DropdownMenuItem>
-                                    ))}
-                                </DropdownMenuContent>
-                            </DropdownMenu>
-
-                        
-                            {navigationItems.slice(0, 2).map((item) => (
-                                <Button key={item.label} asChild variant="link" className='text-foreground'>
-                                    <Link
-                                        href={item.href}
-                                    >
-                                        {item.label}
-                                    </Link>
-                                </Button>
-                            ))}
-
-                            
-
-                            {navigationItems.slice(2).map((item) => (
-                                <Button  key={item.label} variant='link' asChild className='text-foreground'>
-                                    <Link
-                                        href={item.href}
-                                    >
-                                        {item.label}
-                                    </Link>
-                                </Button>
-                            ))}
-                        </nav>
-
-                        <div className="flex items-center gap-3 font-medium">
-                            <Button  size='sm' className='rounded-xl px-4'>Registruotis</Button>
-                            <div className="lg:hidden">
-                                <MenuButton isOpen={isMenuOpen} onClick={toggleMenu} />
-                            </div>
-                        </div>
+        <div className="fixed w-full flex justify-center pt-4 px-4 sm:px-6 md:px-8 z-2 top-0">
+            <motion.header
+                className="bg-white/5 backdrop-blur-md rounded-xl overflow-hidden w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl inset-shadow-sm inset-shadow-white/50 shadow-xl"
+                animate={{
+                    height: isMenuOpen ? 'auto' : 'auto'
+                }}
+                transition={{
+                    duration: 0.4,
+                    ease: [0.4, 0, 0.2, 1]
+                }}
+            >
+                {/* Top Bar */}
+                <div className="flex items-center justify-between px-4 py-2.25">
+                    logotipas
+                    <div className="flex items-center ">
+                        <Button variant='link' className=' text-white hover:no-underline font-inter'>Services</Button>
+                          <Button variant='link' className=' text-white hover:no-underline font-inter'>Pricing</Button>
+                        <MenuButton isOpen={isMenuOpen} onClick={toggleMenu} />
                     </div>
-                </header>
+                </div>
 
-                {/* Mobile Menu - Absolutely positioned to overlay */}
+                {/* Expanded Menu Content */}
                 <AnimatePresence>
                     {isMenuOpen && (
                         <motion.div
@@ -120,125 +58,50 @@ export default function Header() {
                                 opacity: 0
                             }}
                             transition={{
-                                duration: 0.3,
+                                duration: 0.4,
                                 ease: [0.4, 0, 0.2, 1]
                             }}
-                            className="absolute top-full left-0 right-0 lg:hidden overflow-hidden  backdrop-blur-lg "
                         >
-                            <nav className="mx-auto w-full max-w-screen-xl px-4 sm:px-6 lg:px-8 py-4 space-y-2">
-                                {navigationItems.slice(0, 2).map((item, index) => (
+                            <div className="pb-6">
+                                {menuItems.map((item, index) => (
                                     <motion.div
                                         key={item.label}
                                         initial={{
                                             opacity: 0,
-                                            x: -20
+                                            y: -15
                                         }}
                                         animate={{
                                             opacity: 1,
-                                            x: 0
+                                            y: 0
                                         }}
                                         exit={{
                                             opacity: 0,
-                                            x: -20
+                                            y: -15
                                         }}
                                         transition={{
-                                            delay: index * 0.05,
-                                            duration: 0.2,
+                                            delay: index * 0.03,
+                                            duration: 0.25,
                                             ease: [0.4, 0, 0.2, 1]
                                         }}
-                                    >
-                                        <Button asChild variant="link" className='text-foreground/80 hover:text-foreground w-full justify-start'>
-                                            <Link
-                                                href={item.href}
-                                                onClick={() => setIsMenuOpen(false)}
-                                            >
-                                                {item.label}
-                                            </Link>
-                                        </Button>
-                                    </motion.div>
-                                ))}
-
-                                {/* Tėveliams collapsible in mobile - default open */}
-                                <motion.div
-                                    initial={{
-                                        opacity: 0,
-                                        x: -20
-                                    }}
-                                    animate={{
-                                        opacity: 1,
-                                        x: 0
-                                    }}
-                                    exit={{
-                                        opacity: 0,
-                                        x: -20
-                                    }}
-                                    transition={{
-                                        delay: 2 * 0.05,
-                                        duration: 0.2,
-                                        ease: [0.4, 0, 0.2, 1]
-                                    }}
-                                >
-                                    <Collapsible defaultOpen className='pl-1'>
-                                        <CollapsibleTrigger asChild className='cursor-pointer'>
-                                            <Button variant="link" className='w-full justify-start group text-foreground/80 hover:text-foreground data-[state=open]:text-foreground'>
-                                                Tėveliams
-                                                <ChevronDown
-                                                    className="w-4 h-4 ml-1 transition-transform group-data-[state=open]:rotate-180"
-                                                    aria-hidden="true"
-                                                />
-                                            </Button>
-                                        </CollapsibleTrigger>
-                                        <CollapsibleContent className="pl-4 space-y-1">
-                                            {TėveliamsDropdownItems.map((item) => (
-                                                <Button key={item.label} asChild variant="link" className='text-foreground/80 hover:text-foreground w-full justify-start'>
-                                                    <Link
-                                                        href={item.href}
-                                                        onClick={() => setIsMenuOpen(false)}
-                                                    >
-                                                        {item.label}
-                                                    </Link>
-                                                </Button>
-                                            ))}
-                                        </CollapsibleContent>
-                                    </Collapsible>
-                                </motion.div>
-
-                                {navigationItems.slice(2).map((item, index) => (
-                                    <motion.div
-                                        key={item.label}
-                                        initial={{
-                                            opacity: 0,
-                                            x: -20
-                                        }}
-                                        animate={{
-                                            opacity: 1,
-                                            x: 0
-                                        }}
-                                        exit={{
-                                            opacity: 0,
-                                            x: -20
-                                        }}
-                                        transition={{
-                                            delay: (3 + index) * 0.05,
-                                            duration: 0.2,
-                                            ease: [0.4, 0, 0.2, 1]
+                                        whileHover={{
+                                            scale: 0.95,
+                                            transition: { duration: 0.15 }
                                         }}
                                     >
-                                        <Button asChild variant="link" className='text-foreground/80 hover:text-foreground w-full justify-start'>
-                                            <Link
-                                                href={item.href}
-                                                onClick={() => setIsMenuOpen(false)}
-                                            >
-                                                {item.label}
-                                            </Link>
-                                        </Button>
+                                        <Link
+                                            href={item.href}
+                                            className="block px-4 sm:px-6 md:px-8 py-3 text-white hover:text-white/50 transition-all duration-300 text-xl font-semibold text-center hover:tracking-wider"
+                                            onClick={() => setIsMenuOpen(false)}
+                                        >
+                                            {item.label}
+                                        </Link>
                                     </motion.div>
                                 ))}
-                            </nav>
+                            </div>
                         </motion.div>
                     )}
                 </AnimatePresence>
-            </div>
-        </>
+            </motion.header>
+        </div>
     );
 }
