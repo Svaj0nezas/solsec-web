@@ -38,7 +38,15 @@ const formSchema = z.object({
   description: z
     .string()
     .min(20, "Description must be at least 20 characters.")
-    .max(100, "Description must be at most 100 characters."),
+    .max(500, "Description must be at most 100 characters."),
+    email: z
+    .string()
+    .min(5, "Please provide at least one contact method.")
+    .max(100, "Contact information must be at most 100 characters."),
+    phone: z
+    .string()
+    .min(8, "Please provide at least one contact method.")
+    .max(20, "Contact information must be at most 15 characters."),
 })
 
 export function BugReportForm() {
@@ -68,29 +76,30 @@ export function BugReportForm() {
   }
 
   return (
-    <Card className="w-full sm:max-w-md">
+    <Card className="w-full sm:max-w-md py-4">
       <CardHeader>
-        <CardTitle>Bug Report</CardTitle>
+        <CardTitle>Susisiekite su mumis</CardTitle>
         <CardDescription>
-          Help us improve by reporting bugs you encounter.
+          Dėl specifinių klausimų arba pagalbos, prašome užpildyti žemiau esančią formą.
         </CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="px-2">
         <form id="form-rhf-demo" onSubmit={form.handleSubmit(onSubmit)}>
-          <FieldGroup>
+
+          <FieldGroup className="-space-y-2">
             <Controller
               name="title"
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
                   <FieldLabel htmlFor="form-rhf-demo-title">
-                    Bug Title
+                    Tema
                   </FieldLabel>
                   <Input
                     {...field}
                     id="form-rhf-demo-title"
                     aria-invalid={fieldState.invalid}
-                    placeholder="Login button not working on mobile"
+                    placeholder="Užklausos tema"
                     autoComplete="off"
                   />
                   {fieldState.invalid && (
@@ -100,25 +109,68 @@ export function BugReportForm() {
               )}
             />
             <Controller
+              name="email"
+              control={form.control}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor="form-rhf-demo-title">
+                    El. Paštas
+                  </FieldLabel>
+                  <Input
+                    {...field}
+                    id="form-rhf-demo-title"
+                    aria-invalid={fieldState.invalid}
+                    placeholder="pavyzdys@pastas.lt"
+                    autoComplete="off"
+                  />
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
+              )}
+            />
+            <Controller
+              name="phone"
+              control={form.control}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor="form-rhf-demo-title">
+                   Telefono nr.
+                  </FieldLabel>
+                  <Input
+                    {...field}
+                    id="form-rhf-demo-title"
+                    aria-invalid={fieldState.invalid}
+                    placeholder="+370 6XX XXXXX"
+                    autoComplete="off"
+                  />
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
+              )}
+            />
+            
+            <Controller
               name="description"
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
                   <FieldLabel htmlFor="form-rhf-demo-description">
-                    Description
+                    Aprašymas
                   </FieldLabel>
                   <InputGroup>
                     <InputGroupTextarea
                       {...field}
                       id="form-rhf-demo-description"
-                      placeholder="I'm having an issue with the login button on mobile."
+                      placeholder="Detalus užklausos aprašymas"
                       rows={6}
                       className="min-h-24 resize-none"
                       aria-invalid={fieldState.invalid}
                     />
                     <InputGroupAddon align="block-end">
                       <InputGroupText className="tabular-nums">
-                        {field.value.length}/100 characters
+                        {field.value.length}/500 simbolių
                       </InputGroupText>
                     </InputGroupAddon>
                   </InputGroup>
